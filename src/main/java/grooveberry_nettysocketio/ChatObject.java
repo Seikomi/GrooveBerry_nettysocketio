@@ -1,4 +1,4 @@
-package grooveberry__nettysocketioserver;
+package grooveberry_nettysocketio;
 
 public class ChatObject {
 

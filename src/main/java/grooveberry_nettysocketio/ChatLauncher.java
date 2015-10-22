@@ -1,13 +1,15 @@
-package grooveberry__nettysocketioserver;
+package grooveberry_nettysocketio;
 
 import com.corundumstudio.socketio.listener.*;
 import com.corundumstudio.socketio.*;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 public class ChatLauncher {
     public final static int SERVER_COMMANDE_PORT = 2009;
@@ -37,7 +39,16 @@ public class ChatLauncher {
 					out.writeObject(data.getMessage());
 					out.flush();
 					out.reset();
-				} catch (IOException e) {
+					
+					Object receivingObject = in.readObject();
+				
+					if (receivingObject instanceof String) {
+						System.out.println("[Server] " + (String) receivingObject);
+						data.setMessage(receivingObject.toString());
+					} else {
+						System.out.println("SEVERE received data type is invalide");
+					}
+				} catch (IOException | ClassNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -81,15 +92,20 @@ public class ChatLauncher {
                 System.out.println("ERREUR");
             }
 			
+			ChatObject data = new ChatObject();
+			data.setUserName("SERVER");
+			data.setMessage(in.readObject().toString());
 			
-			
-			
+			server.getBroadcastOperations().sendEvent("chatevent", data);
 			
 			//socket.close();
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
