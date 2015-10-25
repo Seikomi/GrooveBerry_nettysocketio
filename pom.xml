@@ -27,7 +27,7 @@
                             <archive>
                                 <manifest>
                                     <addClasspath>true</addClasspath>
-                                    <mainClass>grooveberry_nettysocketioserver.ChatLauncher</mainClass>
+                                    <mainClass>grooveberry_nettysocketio.ChatLauncher</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>
